@@ -3,11 +3,14 @@ html(lang="en")
   head
     block title
       title Resonate player prototype
-    link(rel="stylesheet",href="css/normalize.css")
     link(rel="stylesheet",href="css/font-awesome.css")
+    link(rel="stylesheet",href="css/bootstrap.min.css")
     link(rel="stylesheet",href="css/style.css")
   body
-    h1 res( )nate 
-  script(rel="text/javascript",src="js/app.js")
+
+  script(type='text/template',id="main")
+    include ./_partials/_main.jade
+
+  script(type="text/javascript",src="js/app.js")
   script.
     require('electron-connect').client.create({sendBounds: false})

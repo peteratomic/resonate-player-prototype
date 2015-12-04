@@ -22,11 +22,7 @@
     "tests"
   ],
   "dependencies": {
-    "underscore": "~1.8.3",
-    "backbone": "~1.2.3",
-    "normalize-strings": "normalize#~1.0.4",
-    "font-awesome": "fontawesome#~4.5.0",
-    "jquery": "~2.1.4",
-    "normalize-css": "normalize.css#~3.0.3"
+    "bootstrap": "~3.3.6",
+    "font-awesome": "fontawesome#~4.5.0"
   }
 }

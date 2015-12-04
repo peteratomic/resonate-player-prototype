@@ -14,8 +14,6 @@ bowerPath = './bower_components'
 
 # Javascript library files
 jsLibFiles = [
-  bowerPath+'/jquery/dist/jquery.min.js',
-  bowerPath+'/underscore/underscore-min.js'
 ]
 
 # Javascript source files (Coffeescript)
@@ -26,7 +24,8 @@ jsFiles = [
 # CSS source files (bower)
 cssLibFiles = [
     bowerPath+'/normalize-css/normalize.css',
-    bowerPath+'/font-awesome/css/font-awesome.css'
+    bowerPath+'/font-awesome/css/font-awesome.css',
+    bowerPath+'/bootstrap/dist/css/bootstrap.min.css'
 ]
 
 fontFiles = [
@@ -79,20 +78,20 @@ gulp.task 'clean', (cb)->
 
 # Coffeescript compilation
 gulp.task 'build-js', ['copy-js-dependencies'], ->
-  gulp.src jsFiles
+  gulp.src srcPath+'/js/**/*.coffee'
     .pipe plugins.plumber()
     .pipe plugins.coffeelint()
     .pipe plugins.coffeelint.reporter()
     .pipe plugins.sourcemaps.init()
     .pipe plugins.coffee()
     .pipe plugins.sourcemaps.write()
-    .pipe plugins.concat 'app.js'
+    #.pipe plugins.concat 'app.js'
     .pipe gulp.dest distPath+'/js'
 
 
 # Uglify Javascript
 gulp.task 'uglify-js', ['build-js'], ->
-  gulp.src [distPath+'/js/*.js', '!'+distPath+'/js/*.min.js']
+  gulp.src [distPath+'/js/*.js', '!'+distPath+'/js/*.min.js', '!'+distPath+'/js/*-min.js']
     .pipe plugins.uglify().on('error', plugins.util.log)
     .pipe plugins.rename
       suffix: '.min'
