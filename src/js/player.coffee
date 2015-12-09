@@ -3,15 +3,19 @@ PrettyBytes = require 'pretty-bytes'
 Util = require 'util'
 path = require 'path'
 MainView = require './views/mainView.js'
+Settings = require './settings'
 
 
 class ResonatePlayer
+
 
   # Initialize player
   init: ->
 
     console.log 'Initializing resonate player'
     mainView = new MainView
+    console.log 'library: '+Settings.libraryPath
+
 
   # Play a magnet link
   playMagnetLink: (magnetURI)->
