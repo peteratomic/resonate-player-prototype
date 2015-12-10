@@ -4,6 +4,7 @@
 #
 
 $ = window.jQuery = require 'jquery'
+_ = window.Underscore = require 'underscore'
 
 window.ResonateApp = {}
 ResonateServer = require './js/server.js'

@@ -1,6 +1,6 @@
 class Settings
 
-  libraryPath: '~/music'
+  libraryPath: process.env.HOME + '/Music/Resonate'
 
 
 module.exports = new Settings

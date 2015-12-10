@@ -4,7 +4,7 @@ Util = require 'util'
 path = require 'path'
 MainView = require './views/mainView.js'
 Settings = require './settings'
-
+Library = require './collections/library'
 
 class ResonatePlayer
 
@@ -13,8 +13,11 @@ class ResonatePlayer
   init: ->
 
     console.log 'Initializing resonate player'
+
+    library = new Library
+
     mainView = new MainView
-    console.log 'library: '+Settings.libraryPath
+    mainView.setLibrary library
 
 
   # Play a magnet link
