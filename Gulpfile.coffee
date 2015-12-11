@@ -80,8 +80,8 @@ gulp.task 'clean', (cb)->
 gulp.task 'build-js', ['copy-js-dependencies'], ->
   gulp.src srcPath+'/js/**/*.coffee'
     .pipe plugins.plumber()
-    .pipe plugins.coffeelint()
-    .pipe plugins.coffeelint.reporter()
+    #.pipe plugins.coffeelint()
+    #.pipe plugins.coffeelint.reporter()
     .pipe plugins.sourcemaps.init()
     .pipe plugins.coffee()
     .pipe plugins.sourcemaps.write()

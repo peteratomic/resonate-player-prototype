@@ -1,6 +1,8 @@
-$ = window.jQuery = require 'jquery'
-_ = window.Underscore = require 'underscore'
+$ = require 'jquery'
+_ = require 'underscore'
 fs = require 'fs'
+Lame = require 'lame'
+Speaker = require 'speaker'
 Backbone = require 'backbone'
 Song = require '../models/song'
 Settings = require '../settings'
@@ -33,4 +35,17 @@ module.exports = class Library extends Backbone.Collection
         reset: true
 
 
+  play: (filename)->
+
+    console.log 'playing '+filename
+
+    theSpeaker = null
+
+    theStream = fs.createReadStream Settings.libraryPath+'/'+filename
+    theStream.pipe(new Lame.Decoder())
+      .on 'format', (format)->
+        theSpeaker = new Speaker(format)
+        @pipe theSpeaker
+
+    theStream
 

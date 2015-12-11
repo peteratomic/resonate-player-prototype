@@ -6,8 +6,7 @@ MainView = require './views/mainView.js'
 Settings = require './settings'
 Library = require './collections/library'
 
-class ResonatePlayer
-
+module.exports = class ResonatePlayer
 
   # Initialize player
   init: ->
@@ -57,7 +56,4 @@ class ResonatePlayer
         # Display the file by appending it to the DOM. Supports video, audio, images, and
         # more. Specify a container element (CSS selector or reference to DOM node).
         file.appendTo('body')
-
-
-module.exports = new ResonatePlayer
 

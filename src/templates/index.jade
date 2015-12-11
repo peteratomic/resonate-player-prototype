@@ -7,11 +7,6 @@ html(lang="en")
     link(rel="stylesheet",href="css/bootstrap.min.css")
     link(rel="stylesheet",href="css/style.css")
   body
-
-  -#
-    script(type='text/template',id="main")
-      include ./_partials/_main.jade
-
   script(type="text/javascript",src="js/app.js")
   script.
     require('electron-connect').client.create({sendBounds: false})
