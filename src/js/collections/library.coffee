@@ -1,9 +1,12 @@
 $ = require 'jquery'
 _ = require 'underscore'
 fs = require 'fs'
+path = require 'path'
+mkdirp = require 'mkdirp'
 Lame = require 'lame'
 Speaker = require 'speaker'
 Backbone = require 'backbone'
+
 Song = require '../models/song'
 Settings = require '../settings'
 
@@ -25,18 +28,45 @@ module.exports = class Library extends Backbone.Collection
 
     #console.log 'from library: '+Settings.libraryPath
 
-    fs.readdir Settings.libraryPath, (err,files)->
+    fs.exists Settings.libraryPath, (exists)->
 
-      if err then console.log err
+      if exists
 
-      _.each files, (file)->
+        fs.readdir Settings.libraryPath, (err,files)->
 
-        tmpCollection.push new Song
-          fileName: file
+          if err then console.log err
 
-      # Reset collection in bulk with collected songs
-      self.reset tmpCollection,
-        reset: true
+          _.each files, (file)->
+
+            if file != '.DS_Store'
+              tmpCollection.push new Song
+                fileName: file
+
+          # Reset collection in bulk with collected songs
+          self.reset tmpCollection,
+            reset: true
+
+      else
+
+        # Directory doesn't exist
+        # Create it
+        mkdirp Settings.libraryPath, (error)->
+          if error then console.log error
+
+
+  addFile: (filePath)->
+
+    fileName = path.basename(filePath, path.extname(filePath))+path.extname(filePath)
+    fileDestination = Settings.libraryPath+'/'+fileName
+
+    readFile = fs.createReadStream filePath
+    writeFile = fs.createWriteStream fileDestination
+
+    console.log 'Copying '+filePath+' to '+fileDestination
+    readFile.pipe writeFile
+
+    @add new Song
+      fileName: fileName
 
 
   play: (filename)->

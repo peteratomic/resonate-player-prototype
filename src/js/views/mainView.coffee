@@ -16,9 +16,13 @@ module.exports = class MainView extends Backbone.View
         <h2>Playlist</h2>
         <ul id="playlist">
           <%
-          _.each(songs,function(song){
-            %><li><%= song.fileName %><a href="#" class="play" data-filename="<%= song.fileName %>">Play</a></li><%
-          });
+          if(songs && songs.length){
+            _.each(songs,function(song){
+              %><li><%= song.fileName %><a href="#" class="play" data-filename="<%= song.fileName %>">Play</a></li><%
+            });
+          } else {
+            %><p>No songs in your library yet, drag and drop some into this window or copy them to [home]/Music/Resonate/</p><%
+          }
           %>
         </ul>
       </div>
@@ -35,8 +39,25 @@ module.exports = class MainView extends Backbone.View
 
 
   initialize: ->
+
+    self = @
+
     _.bindAll this, 'render'
     @render()
+
+    console.log @el
+
+    @el.ondragover = ()-> return false
+    @el.ondragleave = @el.ondragend =  ()-> return false
+    @el.ondrop = (e)->
+
+      e.preventDefault()
+      file = e.dataTransfer.files[0]
+      console.log 'File you dragged here is', file.path
+
+      self.library?.addFile file.path
+
+      false
 
 
   playSong: (event)->
@@ -62,6 +83,7 @@ module.exports = class MainView extends Backbone.View
 
     @library = library
     library.on 'reset', @render
+    library.on 'update', @render
 
 
   render: ->
