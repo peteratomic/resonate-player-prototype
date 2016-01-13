@@ -9,6 +9,8 @@ module.exports = class MainView extends Backbone.View
       <div class="col-sm-4">
         <h2>Res(&nbsp;)nate</h2>
         <a class="stop">Stop</a>
+        |
+        <a class="resume">Resume</a>
       </div>
       <div class="col-sm-8">
         <h2>Playlist</h2>
@@ -24,10 +26,12 @@ module.exports = class MainView extends Backbone.View
 
   library: null
   songPlaying: null
+  currentSongName: null
 
   events:
     'click a.play': 'playSong'
     'click a.stop': 'stopPlaying'
+    'click a.resume': 'resumePlaying'
 
 
   initialize: ->
@@ -37,17 +41,25 @@ module.exports = class MainView extends Backbone.View
 
   playSong: (event)->
 
-    console.log 'Play '+$(event.currentTarget).data('filename')
+    @stopPlaying()
     @songPlaying = @library?.play $(event.currentTarget).data('filename')
+    @currentSongName = $(event.currentTarget).data('filename')
 
 
   stopPlaying: ->
 
-    console.dir @songPlaying
-    @songPlaying?.close()
+    console.dir 'Stopping '+@currentSongName
+    @library?.stop()
+
+
+  resumePlaying: ->
+
+    console.log 'Resume playing '+@currentSongName
+    @library?.resume()
 
 
   setLibrary: (library)->
+
     @library = library
     library.on 'reset', @render
 

@@ -11,6 +11,10 @@ module.exports = class Library extends Backbone.Collection
 
   model: Song
 
+  stream: null
+  speaker: null
+  decoder: null
+
 
   initialize: ->
 
@@ -39,13 +43,22 @@ module.exports = class Library extends Backbone.Collection
 
     console.log 'playing '+filename
 
-    theSpeaker = null
+    @speaker = new Speaker()
+    @decoder = new Lame.Decoder()
 
-    theStream = fs.createReadStream Settings.libraryPath+'/'+filename
-    theStream.pipe(new Lame.Decoder())
-      .on 'format', (format)->
-        theSpeaker = new Speaker(format)
-        @pipe theSpeaker
+    @stream = fs.createReadStream Settings.libraryPath+'/'+filename
+    @decoder.pipe @speaker
+    @stream.pipe @decoder
 
-    theStream
+    @speaker
+
+
+  stop: ->
+
+    @decoder?.unpipe()
+
+
+  resume: ->
+
+    @decoder?.pipe @speaker
 
