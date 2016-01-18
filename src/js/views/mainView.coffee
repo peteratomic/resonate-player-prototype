@@ -18,7 +18,8 @@ module.exports = class MainView extends Backbone.View
           <%
           if(songs && songs.length){
             _.each(songs,function(song){
-              %><li><%= song.fileName %><a href="#" class="play" data-filename="<%= song.fileName %>">Play</a></li><%
+              console.log(song);
+              %><li><%= song.title %> [<%= song.fileName %>]<a href="#" class="play" data-filename="<%= song.fileName %>">Play</a></li><%
             });
           } else {
             %><p>No songs in your library yet, drag and drop some into this window or copy them to [home]/Music/Resonate/</p><%

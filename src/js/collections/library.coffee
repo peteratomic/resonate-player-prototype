@@ -6,6 +6,7 @@ mkdirp = require 'mkdirp'
 Lame = require 'lame'
 Speaker = require 'speaker'
 Backbone = require 'backbone'
+id3 = require 'id3js'
 
 Song = require '../models/song'
 Settings = require '../settings'
@@ -39,8 +40,19 @@ module.exports = class Library extends Backbone.Collection
           _.each files, (file)->
 
             if file != '.DS_Store'
-              tmpCollection.push new Song
+
+              song = new Song
                 fileName: file
+
+              id3 Settings.libraryPath+'/'+file, (error,tags)->
+                console.dir tags
+                song.set
+                  title: tags.title
+                  artist: tags.artist
+                  album: tags.album
+
+              tmpCollection.push song
+
 
           # Reset collection in bulk with collected songs
           self.reset tmpCollection,
